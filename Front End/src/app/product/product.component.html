@@ -1,0 +1,140 @@
+<section>
+    <div class="container mt-4">
+        <div class="row mb-5">
+        <div class="col-6"><h1 class="title">Products List</h1></div>
+        <div class="col-6">
+            <div class="text-end mt-2">
+                <button class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#addModal">Add Product</button>
+            </div>
+        </div>
+        </div>
+        <!-- Add Modal -->
+        <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add New Product</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form [formGroup]="addProductForm" (ngSubmit)="addProduct()">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="" class="form-label">Name *</label>
+                                <input type="text" formControlName="name" class="form-control"> 
+                                <div *ngIf="new_name.invalid && (new_name.dirty || new_name.touched)" class="text-danger">
+                                    <small *ngIf="new_name.errors?.required">
+                                        Name is required.
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Price *</label>
+                                <input type="number" formControlName="price" class="form-control" placeholder="">
+                                <div *ngIf="new_price.invalid && (new_price.dirty || new_price.touched)" class="text-danger">
+                                    <small *ngIf="new_price.errors?.required">
+                                        Price is required.
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Category</label>
+                                <input type="text" formControlName="category" class="form-control" placeholder="">
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Description</label>
+                                <textarea formControlName="desc" cols="30" rows="2" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" [disabled]="!addProductForm.valid"  data-bs-dismiss="modal">Add Product</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="table-responsive">
+                <table class="table  text-center">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Category</th>
+                      <th>Price</th>
+                      <th>Description</th>
+                      <th>Update</th>
+                      <th>Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody id="t-body">
+                    <tr *ngFor="let product of Products;index as i">
+                      <td>{{i+1}}</td>
+                      <td>{{product.name}}</td>
+                      <td>{{product.category}}</td>
+                      <td>{{product.price}}</td>
+                      <td>{{product.description}}</td>
+                      <td>
+                        <button class="btn btn-warning" data-bs-toggle="modal"
+                        data-bs-target="#edit-modal" (click)="show(product.id,i)">
+                          Edit
+                        </button>
+                      </td>
+                      <td>
+                        <button class="btn btn-danger" (click)="deleteproduct(product.id)">
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>          
+            </div>
+        </div> 
+</section>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form [formGroup]="editProductForm" (ngSubmit)="updateProduct()">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Name *</label>
+                        <input type="text" formControlName="name" class="form-control" >
+                        <div *ngIf="edit_name.invalid && (edit_name.dirty || edit_name.touched)" class="text-danger">
+                            <small *ngIf="edit_name.errors?.required">
+                                Name is required.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Price *</label>
+                        <input type="number" formControlName="price" class="form-control" placeholder="">
+                        <div *ngIf="edit_price.invalid && (edit_price.dirty || edit_price.touched)" class="text-danger">
+                            <small *ngIf="edit_price.errors?.required">
+                                Price is required.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Category</label>
+                        <input type="text" formControlName="category" class="form-control" placeholder="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Description</label>
+                        <textarea formControlName="desc" cols="30" rows="2" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!editProductForm.valid" data-bs-dismiss="modal">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
