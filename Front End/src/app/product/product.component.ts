@@ -22,8 +22,8 @@ export class ProductComponent {
     this.addProductForm= new FormGroup({
       name: new FormControl(null,[Validators.required]),
       price: new FormControl(null,[Validators.required]),
-      category: new FormControl(),
-      desc: new FormControl(),
+      category: new FormControl(""),
+      desc: new FormControl(""),
     });
 
     this.editProductForm= new FormGroup({
@@ -43,7 +43,6 @@ export class ProductComponent {
   getAllProducts(){
     this.productService.GetProducts().subscribe(res=>{
       this.Products=res;
-      console.log(this.Products);
     })
     
   }
@@ -58,6 +57,7 @@ export class ProductComponent {
       this.getAllProducts();
     })
   }
+  // Providing the Edit-Modal with data
   show(id:number,index:number){
     this.productID=id;
     this.editProductForm.controls.name.setValue(this.Products[index].name);
@@ -77,7 +77,7 @@ export class ProductComponent {
       this.getAllProducts();
     })
   }
-  deleteproduct(id:any){
+  deleteproduct(id:number){
     this.productService.DeleteProduct(id).subscribe(res=>{
       this.getAllProducts();
     })
